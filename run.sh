@@ -5,4 +5,4 @@ service php5-fpm restart
 sleep 3
 service nginx restart
 sleep 3
-/usr/sbin/sshd
+#/usr/sbin/sshd -D
