@@ -3,6 +3,6 @@ service mysql restart
 sleep 3
 service php5-fpm restart
 sleep 3
-service nginx restart
+/usr/sbin/sshd
 sleep 3
-#/usr/sbin/sshd -D
+service nginx restart
