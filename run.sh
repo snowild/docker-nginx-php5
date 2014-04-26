@@ -1,8 +1,8 @@
 #!/bin/bash
-service mysql restart
+service mysql start
 sleep 3
-service php5-fpm restart
+service php5-fpm start
 sleep 3
 /usr/sbin/sshd
 sleep 3
-service nginx restart
+service nginx start
