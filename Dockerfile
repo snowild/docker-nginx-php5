@@ -1,7 +1,9 @@
 FROM ubuntu:12.04
-MAINTAINER Jack Tsai
+
+MAINTAINER Jack Tsai "snowild@gmail.com"
 
 RUN apt-get update
+
 RUN apt-get -y install vim lynx lsof wget openssh-server
 
 # install Nginx, PHP5
@@ -14,13 +16,13 @@ RUN apt-key adv --recv-keys --keyserver hkp://keyserver.ubuntu.com:80 0xcbcb082a
 RUN add-apt-repository 'deb http://mirror2.hs-esslingen.de/mariadb/repo/10.0/ubuntu precise main'
 RUN apt-get update
 RUN apt-get install -y mariadb-server
-RUN echo "[mysqld]"                      >/etc/mysql/conf.d/docker.cnf 
+RUN echo "[mysqld]"                      >/etc/mysql/conf.d/docker.cnf  
 RUN echo "bind-address  = 0.0.0.0"       >>/etc/mysql/conf.d/docker.cnf 
 RUN echo "innodb_flush_method = O_DSYNC" >>/etc/mysql/conf.d/docker.cnf 
 RUN echo "skip-name-resolve"             >>/etc/mysql/conf.d/docker.cnf 
 RUN echo "init_file = /etc/mysql/init"   >>/etc/mysql/conf.d/docker.cnf 
-RUN echo "GRANT ALL ON *.* TO jack@'%' IDENTIFIED BY 'ubic001';" >/etc/mysql/init 
-RUN echo "ALL:ALL"                       >>/etc/hosts.allow # for remote connect
+RUN echo "GRANT ALL ON *.* TO jack@'%' IDENTIFIED BY 'ubic001';" >/etc/mysql/init
+RUN echo "ALL:ALL"                       >>/etc/hosts.allow # avoid ERROR 2013 (HY000): Lost connection to MySQL server at 'reading initial communication packet', system error: 0
 
 # Download Nginx sites-enabled default config
 RUN wget --no-check-certificate -O /etc/nginx/sites-enabled/default https://raw.githubusercontent.com/snowild/docker-nginx-php5/develop/config/nginx/sites-enabled/default
@@ -42,8 +44,12 @@ EXPOSE 3306
 EXPOSE 22
 
 # Download entrypoint shell script
-RUN wget --no-check-certificate -O
+RUN wget --no-check-certificate -O /bin/run.sh https://raw.githubusercontent.com/snowild/docker-nginx-php5/develop/run.sh
+#RUN echo "#!/bin/bash" >> /bin/run.sh
+#RUN echo "service mysql start" >> /bin/run.sh
+#RUN echo "service php5-fpm start" >> /bin/run.sh
+#RUN echo "/usr/sbin/sshd" >> /bin/run.sh
+#RUN echo "/usr/sbin/nginx" >> /bin/run.sh
 
 RUN chmod 755 /bin/run.sh
-
 ENTRYPOINT ["/bin/run.sh"]
