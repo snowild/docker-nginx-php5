@@ -16,7 +16,7 @@ RUN apt-key adv --recv-keys --keyserver hkp://keyserver.ubuntu.com:80 0xcbcb082a
 RUN add-apt-repository 'deb http://mirror2.hs-esslingen.de/mariadb/repo/10.0/ubuntu precise main'
 RUN apt-get update
 RUN apt-get install -y mariadb-server
-RUN echo "[mysqld]"                      >/etc/mysql/conf.d/docker.cnf  
+RUN echo "[mysqld]"                      >/etc/mysql/conf.d/docker.cnf 
 RUN echo "bind-address  = 0.0.0.0"       >>/etc/mysql/conf.d/docker.cnf 
 RUN echo "innodb_flush_method = O_DSYNC" >>/etc/mysql/conf.d/docker.cnf 
 RUN echo "skip-name-resolve"             >>/etc/mysql/conf.d/docker.cnf 
